@@ -24,14 +24,14 @@ public:
              << setw(12) << dateAdd << endl;
     }
 
-    void borrow() {
-        if (available) {
-            available = false;
-            cout << "\n✅ Book borrowed successfully!\n";
-        } else {
-            cout << "\n❌ Sorry, this book is not available.\n";
-        }
-    }
+    // void borrow() {
+    //     if (available) {
+    //         available = false;
+    //         cout << "\n✅ Book borrowed successfully!\n";
+    //     } else {
+    //         cout << "\n❌ Sorry, this book is not available.\n";
+    //     }
+    // }
 };
 
 int main() {
