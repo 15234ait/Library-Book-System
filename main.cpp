@@ -3,20 +3,17 @@
 #include <iomanip>
 using namespace std;
 
-// Base class
 class Book {
 public:
     string title, author, isbn, dateAdd;
     bool available;
-    string type; // "hardcopy" or "ebook"
 
-    void setDetails(string t, string a, string i, bool avail, string date, string bookType) {
+    void setDetails(string t, string a, string i, bool avail, string date) {
         title = t;
         author = a;
         isbn = i;
         available = avail;
         dateAdd = date;
-        type = bookType;
     }
 
     void displayRow() {
@@ -24,151 +21,90 @@ public:
              << setw(20) << author
              << setw(10) << isbn
              << setw(10) << (available ? "Yes" : "No")
-             << setw(12) << dateAdd;
+             << setw(12) << dateAdd << endl;
     }
+};
 
-    void borrow() {
-        if (available) {
-            available = false;
-            cout << "\n✅ Book borrowed successfully!\n";
-        } else {
-            cout << "\n❌ This book is already borrowed.\n";
+// Sort by ISBN - Ascending
+void sortBooksAscending(Book books[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (books[j].isbn > books[j + 1].isbn) {
+                Book temp = books[j];
+                books[j] = books[j + 1];
+                books[j + 1] = temp;
+            }
         }
     }
+}
 
-    void returnBook() {
-        if (!available) {
-            available = true;
-            cout << "\n🔁 Book returned successfully!\n";
-        } else {
-            cout << "\n❗ This book is already available.\n";
+// Sort by ISBN - Descending
+void sortBooksDescending(Book books[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (books[j].isbn < books[j + 1].isbn) {
+                Book temp = books[j];
+                books[j] = books[j + 1];
+                books[j + 1] = temp;
+            }
         }
     }
-};
+}
 
-// Derived class: HardcopyBook
-class HardcopyBook : public Book {
-public:
-    string shelfNumber;
-
-    void setShelf(string shelf) {
-        shelfNumber = shelf;
+// Print all books
+void printBooks(Book books[], int size) {
+    for (int i = 0; i < size; i++) {
+        books[i].displayRow();
     }
-
-    string getShelf() {
-        return shelfNumber;
-    }
-};
-
-// Derived class: EBook
-class EBook : public Book {
-public:
-    string licenseEndDate;
-
-    void setLicense(string license) {
-        licenseEndDate = license;
-    }
-
-    string getLicense() {
-        return licenseEndDate;
-    }
-};
+}
 
 int main() {
-    const int SIZE = 5;
-    Book* books[SIZE];
+    cout << " Correct Book Initialization:\n";
+    Book b1, b2, b3;
+    b1.setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+    b2.setDetails("1984", "George Orwell", "222", false, "2023-01-02");
+    b3.setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+    b1.displayRow(); b2.displayRow(); b3.displayRow();
 
-    // Create books
-    HardcopyBook* b1 = new HardcopyBook();
-    b1->setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01", "hardcopy");
-    b1->setShelf("A-01");
+    // Ascending Sort
+    cout << "\n Ascending Sort Test (before):\n";
+    Book asc[3];
+    asc[0].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+    asc[1].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+    asc[2].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+    printBooks(asc, 3);
 
-    EBook* b2 = new EBook();
-    b2->setDetails("1984", "George Orwell", "222", true, "2023-01-02", "ebook");
-    b2->setLicense("2025-12-31");
+    sortBooksAscending(asc, 3);
+    cout << " Ascending Sort Test (after):\n";
+    printBooks(asc, 3);
 
-    HardcopyBook* b3 = new HardcopyBook();
-    b3->setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03", "hardcopy");
-    b3->setShelf("C-03");
+    // Descending Sort
+    cout << "\n Descending Sort Test (before):\n";
+    Book desc[3];
+    desc[0].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+    desc[1].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+    desc[2].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+    printBooks(desc, 3);
 
-    EBook* b4 = new EBook();
-    b4->setDetails("Hamlet", "W. Shakespeare", "444", true, "2023-01-04", "ebook");
-    b4->setLicense("2024-06-01");
+    sortBooksDescending(desc, 3);
+    cout << " Descending Sort Test (after):\n";
+    printBooks(desc, 3);
 
-    HardcopyBook* b5 = new HardcopyBook();
-    b5->setDetails("Frankenstein", "M. Shelley", "555", true, "2023-01-05", "hardcopy");
-    b5->setShelf("B-02");
+    // Mixed Sort (try both)
+    cout << "\n Mixed Sort Test (original order):\n";
+    Book mix[3];
+    mix[0].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+    mix[1].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+    mix[2].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+    printBooks(mix, 3);
 
-    // Add to array
-    books[0] = b1;
-    books[1] = b2;
-    books[2] = b3;
-    books[3] = b4;
-    books[4] = b5;
+    cout << "\n Mixed Sort Test (after ascending sort):\n";
+    sortBooksAscending(mix, 3);
+    printBooks(mix, 3);
 
-    int choice;
-    string input;
-
-    while (true) {
-        cout << "\n📚 Library Menu:\n";
-        cout << "1. Borrow Book\n";
-        cout << "2. Return Book\n";
-        cout << "0. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        if (choice == 0) {
-            cout << "\n👋 Exiting... Have a great day!\n";
-            break;
-        }
-
-        // Show book table
-        cout << "\nAvailable Books:\n";
-        cout << "===========================================================================================\n";
-        cout << left << setw(20) << "Title"
-             << setw(20) << "Author"
-             << setw(10) << "ISBN"
-             << setw(10) << "Available"
-             << setw(12) << "Date Added"
-             << setw(15) << "Extra Info" << endl;
-        cout << "-------------------------------------------------------------------------------------------\n";
-
-        for (int i = 0; i < SIZE; i++) {
-            books[i]->displayRow();
-
-            if (books[i]->type == "hardcopy") {
-                // Safe cast: we know it's a HardcopyBook
-                HardcopyBook* h = static_cast<HardcopyBook*>(books[i]);
-                cout << setw(15) << h->getShelf() << endl;
-            } else if (books[i]->type == "ebook") {
-                EBook* e = static_cast<EBook*>(books[i]);
-                cout << setw(15) << e->getLicense() << endl;
-            } else {
-                cout << setw(15) << "-" << endl;
-            }
-        }
-
-        // Ask for ISBN
-        cout << "\nEnter ISBN: ";
-        cin >> input;
-
-        bool found = false;
-        for (int i = 0; i < SIZE; i++) {
-            if (books[i]->isbn == input) {
-                found = true;
-                if (choice == 1) {
-                    books[i]->borrow();
-                } else if (choice == 2) {
-                    books[i]->returnBook();
-                }
-                break;
-            }
-        }
-
-        if (!found) {
-            cout << "\n❌ Book with ISBN " << input << " not found.\n";
-        }
-    }
+    cout << "\n Mixed Sort Test (after descending sort):\n";
+    sortBooksDescending(mix, 3);
+    printBooks(mix, 3);
 
     return 0;
 }
