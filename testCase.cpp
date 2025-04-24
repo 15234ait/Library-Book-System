@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -46,55 +47,48 @@ void printBooks(Book books[], int size) {
 }
 
 int main() {
-    cout << "✅ Correct Book Initialization:\n";
+    cout << " Correct Book Initialization:\n";
     Book b1, b2, b3;
     b1.setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
     b2.setDetails("1984", "George Orwell", "222", false, "2023-01-02");
     b3.setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
     b1.displayRow(); b2.displayRow(); b3.displayRow();
+    
+     cout << "\n Ascending Sort Test (before):\n";
+Book asc[3];
+asc[0].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+asc[1].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+asc[2].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+printBooks(asc, 3);
 
-    cout << "\n❌ Incorrect Book Initialization:\n";
-    Book w1, w2, w3;
-    w1.setDetails("", "", "ABC", true, "not-a-date");
-    w2.setDetails("???", "!!!", "", false, "");
-    w3.setDetails("Book", "Author", "", false, "??/??/????");
-    w1.displayRow(); w2.displayRow(); w3.displayRow();
+sortBooks(asc, 3);
+cout << " Ascending Sort Test (after):\n";
+printBooks(asc, 3);
 
-    // ASCENDING SORT TEST
-    cout << "\n📚 Ascending Sort Test (before):\n";
-    Book asc[3];
-    asc[0].setDetails("C Book", "Author C", "333", true, "2023-01-03");
-    asc[1].setDetails("A Book", "Author A", "111", true, "2023-01-01");
-    asc[2].setDetails("B Book", "Author B", "222", true, "2023-01-02");
-    printBooks(asc, 3);
+// DESCENDING SORT TEST
+cout << "\n Descending Sort Test (before):\n";
+Book desc[3];
+desc[0].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+desc[1].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+desc[2].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+printBooks(desc, 3);
 
-    sortBooks(asc, 3);
-    cout << "📚 Ascending Sort Test (after):\n";
-    printBooks(asc, 3);
+sortBooks(desc, 3);
+cout << " Descending Sort Test (after):\n";
+printBooks(desc, 3);
 
-    // DESCENDING SORT TEST
-    cout << "\n📚 Descending Sort Test (before):\n";
-    Book desc[3];
-    desc[0].setDetails("A Book", "Author A", "111", true, "2023-01-01");
-    desc[1].setDetails("C Book", "Author C", "333", true, "2023-01-03");
-    desc[2].setDetails("B Book", "Author B", "222", true, "2023-01-02");
-    printBooks(desc, 3);
+// MIXED SORT TEST
+cout << "\n Mixed Sort Test (before):\n";
+Book mix[3];
+mix[0].setDetails("1984", "George Orwell", "222", true, "2023-01-02");
+mix[1].setDetails("The Hobbit", "J.R.R. Tolkien", "111", true, "2023-01-01");
+mix[2].setDetails("Dune", "Frank Herbert", "333", true, "2023-01-03");
+printBooks(mix, 3);
 
-    sortBooks(desc, 3);
-    cout << "📚 Descending Sort Test (after):\n";
-    printBooks(desc, 3);
+sortBooks(mix, 3);
+cout << " Mixed Sort Test (after):\n";
+printBooks(mix, 3);
 
-    // MIXED SORT TEST
-    cout << "\n📚 Mixed Sort Test (before):\n";
-    Book mix[3];
-    mix[0].setDetails("B Book", "Author B", "222", true, "2023-01-02");
-    mix[1].setDetails("A Book", "Author A", "111", true, "2023-01-01");
-    mix[2].setDetails("C Book", "Author C", "333", true, "2023-01-03");
-    printBooks(mix, 3);
 
-    sortBooks(mix, 3);
-    cout << "📚 Mixed Sort Test (after):\n";
-    printBooks(mix, 3);
-
-    return 0;
+return 0;
 }
